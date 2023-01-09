@@ -4,13 +4,18 @@ import "package:xml/xml.dart";
 import "context.dart";
 import "common.dart" as common;
 
-String fetchCurrentBundleName(
+String? fetchCurrentBundleName(
     Context context, String androidManifestPath, String manifestFileData) {
   final parsed = XmlDocument.parse(
     manifestFileData,
   );
 
-  final application = parsed.findAllElements("application").toList()[0];
+  final element = parsed.findAllElements("application");
+  if (element.isEmpty) {
+    return null;
+  }
+
+  final application = element.toList()[0];
 
   final List<String> label = application.attributes
       .where((attrib) => attrib.toString().contains("android:label"))
@@ -59,18 +64,21 @@ String setNewPackageName(Context context, String manifestFileData,
 void updateLauncherNames(Context context) {
   for (var i = 0; i < context.androidManifestPaths.length; i++) {
     final androidManifestPath = context.androidManifestPaths[i];
-    updateLaunchetName(context, androidManifestPath);
+    updateLauncherName(context, androidManifestPath);
   }
 }
 
-void updateLaunchetName(Context context, String androidManifestPath) {
+void updateLauncherName(Context context, String androidManifestPath) {
   final String manifestFileData = common.readFile(androidManifestPath);
+  String updatedManifestData = "";
 
   final String desiredBundleName = common.fetchLauncherName(context);
-  final String currentBundleName =
+  final String? currentBundleName =
       fetchCurrentBundleName(context, androidManifestPath, manifestFileData);
-  String updatedManifestData = setNewBundleName(
-      context, manifestFileData, currentBundleName, desiredBundleName);
+  if (currentBundleName != null) {
+    updatedManifestData = setNewBundleName(
+        context, manifestFileData, currentBundleName, desiredBundleName);
+  }
 
   final String? desiredPackageName = common.fetchId(context);
   if (desiredPackageName != null) {
