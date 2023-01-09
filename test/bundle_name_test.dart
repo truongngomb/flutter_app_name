@@ -175,29 +175,38 @@ void main() {
     yamlKeyName: "flutter_app_name",
     pubspecPath: "test/test_pubspec_good.yaml",
     infoPlistPath: "ios/Runner/Info.plist",
-    androidManifestPath: "android/app/src/main/AndroidManifest.xml",
+    androidManifestPaths: [
+      "android/app/src/main/AndroidManifest.xml",
+      "android/app/src/debug/AndroidManifest.xml",
+      "android/app/src/profile/AndroidManifest.xml",
+    ],
   );
 
   test("Android", () {
-    expect(
-      android.fetchCurrentBundleName(context, androidManifest),
-      equals('android:label="Flutter App Name"'),
-    );
+    for (var i = 0; i < context.androidManifestPaths.length; i++) {
+      final androidManifestPath = context.androidManifestPaths[i];
+      expect(
+        android.fetchCurrentBundleName(
+            context, androidManifestPath, androidManifest),
+        equals('android:label="Flutter App Name"'),
+      );
 
-    expect(
-      android.fetchCurrentPackageName(context, androidManifest),
-      equals('package="com.example.fextoolkit_app"'),
-    );
+      expect(
+        android.fetchCurrentPackageName(
+            context, androidManifestPath, androidManifest),
+        equals('package="com.example.fextoolkit_app"'),
+      );
 
-    expect(
-      android.setNewPackageName(
-          context,
-          android.setNewBundleName(context, androidManifest,
-              'android:label="Flutter App Name"', "Test"),
-          'package="com.example.fextoolkit_app"',
-          "com.test.fextoolkit_app"),
-      equals(androidManifestUpdated),
-    );
+      expect(
+        android.setNewPackageName(
+            context,
+            android.setNewBundleName(context, androidManifest,
+                'android:label="Flutter App Name"', "Test"),
+            'package="com.example.fextoolkit_app"',
+            "com.test.fextoolkit_app"),
+        equals(androidManifestUpdated),
+      );
+    }
   });
 
   test("iOS", () {

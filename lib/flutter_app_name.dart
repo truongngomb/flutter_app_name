@@ -12,11 +12,15 @@ void run() {
     yamlKeyName: "flutter_app_name",
     pubspecPath: "pubspec.yaml",
     infoPlistPath: "ios/Runner/Info.plist",
-    androidManifestPath: "android/app/src/main/AndroidManifest.xml",
+    androidManifestPaths: [
+      "android/app/src/main/AndroidManifest.xml",
+      "android/app/src/debug/AndroidManifest.xml",
+      "android/app/src/profile/AndroidManifest.xml",
+    ],
   );
 
   ios.updateLauncherName(context);
-  android.updateLauncherName(context);
+  android.updateLauncherNames(context);
   final id = fetchId(context);
   if (id != null) {
     changeBundleId(id, <Platform>[]);

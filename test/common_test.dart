@@ -9,7 +9,11 @@ void main() {
       yamlKeyName: "flutter_app_name",
       pubspecPath: "test/test_pubspec_good.yaml",
       infoPlistPath: "ios/Runner/Info.plist",
-      androidManifestPath: "android/app/src/main/AndroidManifest.xml",
+      androidManifestPaths: [
+        "android/app/src/main/AndroidManifest.xml",
+        "android/app/src/debug/AndroidManifest.xml",
+        "android/app/src/profile/AndroidManifest.xml",
+      ],
     );
 
     expect(
@@ -23,14 +27,22 @@ void main() {
       yamlKeyName: "flutter_app_name",
       pubspecPath: "test/test_pubspec_bad_parent_key.yaml",
       infoPlistPath: "ios/Runner/Info.plist",
-      androidManifestPath: "android/app/src/main/AndroidManifest.xml",
+      androidManifestPaths: [
+        "android/app/src/main/AndroidManifest.xml",
+        "android/app/src/debug/AndroidManifest.xml",
+        "android/app/src/profile/AndroidManifest.xml",
+      ],
     );
 
     final context2 = Context(
       yamlKeyName: "flutter_app_name",
       pubspecPath: "test/test_pubspec_bad_name.yaml",
       infoPlistPath: "ios/Runner/Info.plist",
-      androidManifestPath: "android/app/src/main/AndroidManifest.xml",
+      androidManifestPaths: [
+        "android/app/src/main/AndroidManifest.xml",
+        "android/app/src/debug/AndroidManifest.xml",
+        "android/app/src/profile/AndroidManifest.xml",
+      ],
     );
 
     expect(() => fetchLauncherName(context1), throwsA(isA<Exception>()));
