@@ -41,7 +41,7 @@ void main() {
 
   final String androidManifestUpdated = """
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.fextoolkit_app">
+    package="com.test.fextoolkit_app">
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
@@ -185,8 +185,17 @@ void main() {
     );
 
     expect(
-      android.setNewBundleName(
-          context, androidManifest, 'android:label="Flutter App Name"', "Test"),
+      android.fetchCurrentPackageName(context, androidManifest),
+      equals('package="com.example.fextoolkit_app"'),
+    );
+
+    expect(
+      android.setNewPackageName(
+          context,
+          android.setNewBundleName(context, androidManifest,
+              'android:label="Flutter App Name"', "Test"),
+          'package="com.example.fextoolkit_app"',
+          "com.test.fextoolkit_app"),
       equals(androidManifestUpdated),
     );
   });

@@ -49,7 +49,7 @@ String setNewBundleName(Context context, String manifestFileData,
 String setNewPackageName(Context context, String manifestFileData,
     String currentPackageName, String desiredPackageName) {
   return manifestFileData.replaceAll(
-      currentPackageName, 'package="${currentPackageName}"');
+      currentPackageName, 'package="${desiredPackageName}"');
 }
 
 void updateLauncherName(Context context) {
