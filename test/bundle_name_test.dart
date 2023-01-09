@@ -185,7 +185,6 @@ void main() {
   test("Android", () {
     for (var i = 0; i < context.androidManifestPaths.length; i++) {
       final androidManifestPath = context.androidManifestPaths[i];
-      print(androidManifestPath);
       expect(
         android.fetchCurrentBundleName(
             context, androidManifestPath, androidManifest),
