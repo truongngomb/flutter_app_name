@@ -1,4 +1,3 @@
-import "dart:io";
 import "package:xml/xml.dart";
 
 import "context.dart";
@@ -61,6 +60,12 @@ String setNewPackageName(Context context, String manifestFileData,
       currentPackageName, 'package="${desiredPackageName}"');
 }
 
+String setNewScheme(Context context, String manifestFileData,
+    String currentPackageName, String desiredPackageName) {
+  return manifestFileData.replaceAll(
+      currentPackageName, 'android:scheme="${desiredPackageName}"');
+}
+
 void updateLauncherNames(Context context) {
   for (var i = 0; i < context.androidManifestPaths.length; i++) {
     final androidManifestPath = context.androidManifestPaths[i];
@@ -85,6 +90,8 @@ void updateLauncherName(Context context, String androidManifestPath) {
     final String currentPackageName =
         fetchCurrentPackageName(context, androidManifestPath, manifestFileData);
     updatedManifestData = setNewPackageName(
+        context, manifestFileData, currentPackageName, desiredPackageName);
+    updatedManifestData = setNewScheme(
         context, manifestFileData, currentPackageName, desiredPackageName);
   }
 
